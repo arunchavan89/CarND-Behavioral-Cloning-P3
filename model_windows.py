@@ -8,7 +8,6 @@ Created on Wed Apr  8 16:41:05 2020
 # Imports
 import csv
 import os
-import cv2
 import numpy as np
 import matplotlib.image as mpimg
 from keras.models import Sequential
@@ -28,7 +27,7 @@ with open("data/driving_log.csv") as csvfile:
         image = mpimg.imread(img_path)
         images.append(image)
         # Get streering angle from csv file
-        measurement = line[3]
+        measurement = float(line[3])
         measurements.append(measurement)
 
 # Convert to arrays        
@@ -37,10 +36,15 @@ y_train = np.array(measurements)
 
 
 model = Sequential()
+print("done Sequential")
 model.add(Flatten(input_shape = (160, 320, 3)))
+print("done Flatten")
 model.add(Dense(1))
+print("done Dense")
 model.compile(loss='mse', optimizer = 'adam')
-model.fit(X_train, y_train, validation_split=0.2, shuffle = True, nb_epoch = 7)
+print("done compile")
+model.fit(X_train, y_train, validation_split=0.2, shuffle = True, nb_epoch = 5)
+print("done fit")
 
 # Save the model
 model.save('model.h5')

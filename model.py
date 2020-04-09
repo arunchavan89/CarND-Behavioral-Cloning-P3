@@ -30,7 +30,7 @@ with open("data1/driving_log.csv") as csvfile:
         image = img.imread(img_path)
         images.append(image)
         # Get streering angle from csv file
-        measurement = line[3]
+        measurement = float(line[3])
         measurements.append(measurement)
 
 # Convert to arrays        
@@ -42,7 +42,7 @@ model = Sequential()
 model.add(Flatten(input_shape = (160, 320, 3)))
 model.add(Dense(1))
 model.compile(loss='mse', optimizer = 'adam')
-model.fit(X_train, y_train, validation_split=0.2, shuffle=True, nb_epoch = 7)
+model.fit(X_train, y_train, validation_split=0.2, shuffle=True, nb_epoch = 5)
 
 # Save the model
 model.save('model.h5')

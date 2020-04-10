@@ -11,8 +11,8 @@ import os
 import cv2
 import numpy as np
 from keras.models import Sequential
-from keras.layers import Flatten, Dense, Lambda, Cropping2D, Convolution2D
-
+from keras.layers import Flatten, Dense, Lambda, Cropping2D, Convolution2D, pooling, Dropout
+import matplotlib.pyplot as plt
 # Get path to the current working directory.
 cwd_path = os.getcwd()
 folder_path = cwd_path + "/data/IMG" + "/"
@@ -75,36 +75,40 @@ y_train = np.array(measurements)
 print(len(X_train))
 print(len(y_train))
 
-## Define model 
+from keras.models import Sequential
+from keras.layers import MaxPooling2D, Dense, Flatten, Convolution2D, Lambda
+
 model = Sequential()
 ## Normlization using lambda helps parallelization 
-model.add(Lambda(lambda x: (x/255) - 0.5, input_shape = (160, 320, 3)))
+model.add(Lambda(lambda x: (x/255) - 0.5))
 ## set up cropping2D layer
 model.add(Cropping2D(cropping=((70,20), (0,0)), input_shape=(160,320,3)))
-## Layer 1: Convolution 2D 24 x 5 x 5
-model.add(Convolution2D(24, 5, 5, subsample = (2, 2), activation = "relu"))
-## Layer 2: Convolution 2D 36 x 5 x 5
-model.add(Convolution2D(36, 5, 5, subsample = (2, 2), activation = "relu"))
-## Layer 3: Convolution 2D 48 x 3 x 3
-model.add(Convolution2D(48, 5, 5, subsample = (2, 2), activation = "relu"))
-## Layer 4: Convolution 2D 64 x 3 x 3
-model.add(Convolution2D(64, 3, 3, activation = "relu"))
-## Layer 5: Convolution 2D 64 x 3 x 3
-model.add(Convolution2D(64, 3, 3, activation = "relu"))
-## Flatten
+model.add(Convolution2D(24, 5, 5, activation='relu'))
+model.add(MaxPooling2D(pool_size=(2, 2)))
+model.add(Convolution2D(36, 5, 5, activation='relu'))
+model.add(MaxPooling2D(pool_size=(2, 2)))
+model.add(Convolution2D(48, 5, 5, activation='relu'))
+model.add(MaxPooling2D(pool_size=(2, 2)))
 model.add(Flatten())
-## Dense 100
 model.add(Dense(100))
-## Dense 50
 model.add(Dense(50))
-## Dense 10
 model.add(Dense(10))
-## Dense 1
 model.add(Dense(1))
 
 ## Compile and Fit
 model.compile(loss='mse', optimizer = 'adam')
-model.fit(X_train, y_train, validation_split=0.2, shuffle = True, nb_epoch = 4)
+history_object = model.fit(X_train, y_train, validation_split=0.2, shuffle = True, nb_epoch = 4)
 
 ## Save the model
-model.save('2020_04_10_model_5.h5')
+model.save('2020_04_10_model_2.h5')
+### print the keys contained in the history object
+print(history_object.history.keys())
+
+### plot the training and validation loss for each epoch
+plt.plot(history_object.history['loss'])
+plt.plot(history_object.history['val_loss'])
+plt.title('model mean squared error loss')
+plt.ylabel('mean squared error loss')
+plt.xlabel('epoch')
+plt.legend(['training set', 'validation set'], loc='upper right')
+plt.show()

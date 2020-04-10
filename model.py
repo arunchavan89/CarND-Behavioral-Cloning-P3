@@ -80,17 +80,17 @@ model = Sequential()
 ## Normlization using lambda helps parallelization 
 model.add(Lambda(lambda x: (x/255) - 0.5, input_shape = (160, 320, 3)))
 ## set up cropping2D layer
-model.add(Cropping2D(cropping=((50,20), (0,0)), input_shape=(160,320,3)))
+model.add(Cropping2D(cropping=((70,20), (0,0)), input_shape=(160,320,3)))
 ## Layer 1: Convolution 2D 24 x 5 x 5
 model.add(Convolution2D(24, 5, 5, subsample = (2, 2), activation = "relu"))
 ## Layer 2: Convolution 2D 36 x 5 x 5
 model.add(Convolution2D(36, 5, 5, subsample = (2, 2), activation = "relu"))
 ## Layer 3: Convolution 2D 48 x 3 x 3
-model.add(Convolution2D(48, 3, 3, subsample = (2, 2), activation = "relu"))
+model.add(Convolution2D(48, 5, 5, subsample = (2, 2), activation = "relu"))
 ## Layer 4: Convolution 2D 64 x 3 x 3
-model.add(Convolution2D(64, 3, 3, subsample = (2, 2), activation = "relu"))
+model.add(Convolution2D(64, 3, 3, activation = "relu"))
 ## Layer 5: Convolution 2D 64 x 3 x 3
-model.add(Convolution2D(64, 3, 3, subsample = (2, 2), activation = "relu"))
+model.add(Convolution2D(64, 3, 3, activation = "relu"))
 ## Flatten
 model.add(Flatten())
 ## Dense 100
@@ -104,7 +104,7 @@ model.add(Dense(1))
 
 ## Compile and Fit
 model.compile(loss='mse', optimizer = 'adam')
-model.fit(X_train, y_train, validation_split=0.2, shuffle = True, nb_epoch = 5)
+model.fit(X_train, y_train, validation_split=0.2, shuffle = True, nb_epoch = 4)
 
 ## Save the model
-model.save('model.h5')
+model.save('2020_04_10_model_5.h5')

@@ -11,7 +11,7 @@ import os
 import cv2
 import numpy as np
 from keras.models import Sequential
-from keras.layers import MaxPooling2D, Dense, Flatten, Convolution2D, Lambda, Cropping2D
+from keras.layers import Flatten, Dense, Lambda, Cropping2D, Convolution2D, pooling, Dropout
 import matplotlib.pyplot as plt
 # Get path to the current working directory.
 cwd_path = os.getcwd()
@@ -75,38 +75,24 @@ y_train = np.array(measurements)
 print(len(X_train))
 print(len(y_train))
 
+from keras.models import Sequential
+from keras.layers import MaxPooling2D, Dense, Flatten, Convolution2D, Lambda
+
 model = Sequential()
 ## Normlization using lambda helps parallelization 
 model.add(Lambda(lambda x: (x/255) - 0.5))
-
-###
-# Set up cropping2D layer.     
-# 70 rows pixels from the top of the image
-# 20 rows pixels from the bottom of the image
-# 0 columns of pixels from the rignt and left of the image
-###
-model.add(Cropping2D(cropping=((70,20), (0,0)), input_shape=(160,320,3)))
-# Layer 1: 24 x 5 x 5
+## set up cropping2D layer
+model.add(Cropping2D(cropping=((65,25), (0,0)), input_shape=(160,320,3)))
 model.add(Convolution2D(24, 5, 5, activation='relu'))
-# Pooling layer
 model.add(MaxPooling2D(pool_size=(2, 2)))
-# Layer 2: 36 x 5 x 5
 model.add(Convolution2D(36, 5, 5, activation='relu'))
-# Pooling layer
 model.add(MaxPooling2D(pool_size=(2, 2)))
-# Layer 3: 48 x 5 x 5
 model.add(Convolution2D(48, 5, 5, activation='relu'))
-# Pooling layer
 model.add(MaxPooling2D(pool_size=(2, 2)))
-# Flatten
 model.add(Flatten())
-## Dense 100
 model.add(Dense(100))
-## Dense 50
 model.add(Dense(50))
-## Dense 10
 model.add(Dense(10))
-# Final output layer
 model.add(Dense(1))
 
 ## Compile and Fit

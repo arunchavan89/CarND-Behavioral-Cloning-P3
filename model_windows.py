@@ -11,7 +11,7 @@ import os
 import cv2
 import numpy as np
 from keras.models import Sequential
-from keras.layers import Flatten, Dense, Lambda, Cropping2D, Convolution2D
+from keras.layers import MaxPooling2D, Dense, Flatten, Convolution2D, Lambda, Cropping2D
 
 # Get path to the current working directory.
 cwd_path = os.getcwd()
@@ -76,23 +76,30 @@ y_train = np.array(measurements)
 print(len(X_train))
 print(len(y_train))
 
-## Define model 
 model = Sequential()
 ## Normlization using lambda helps parallelization 
-model.add(Lambda(lambda x: (x/255) - 0.5, input_shape = (160, 320, 3)))
-## set up cropping2D layer
-model.add(Cropping2D(cropping=((50,20), (0,0)), input_shape=(160,320,3)))
-## Layer 1: Convolution 2D 24 x 5 x 5
-model.add(Convolution2D(24, 5, 5, subsample = (2, 2), activation = "relu"))
-## Layer 2: Convolution 2D 36 x 5 x 5
-model.add(Convolution2D(36, 5, 5, subsample = (2, 2), activation = "relu"))
-## Layer 3: Convolution 2D 48 x 3 x 3
-model.add(Convolution2D(48, 3, 3, subsample = (2, 2), activation = "relu"))
-## Layer 4: Convolution 2D 64 x 3 x 3
-model.add(Convolution2D(64, 3, 3, subsample = (2, 2), activation = "relu"))
-## Layer 5: Convolution 2D 64 x 3 x 3
-model.add(Convolution2D(64, 3, 3, subsample = (2, 2), activation = "relu"))
-## Flatten
+model.add(Lambda(lambda x: (x/255) - 0.5))
+
+###
+# Set up cropping2D layer.     
+# 70 rows pixels from the top of the image
+# 20 rows pixels from the bottom of the image
+# 0 columns of pixels from the rignt and left of the image
+###
+model.add(Cropping2D(cropping=((70,20), (0,0)), input_shape=(160,320,3)))
+# Layer 1: 24 x 5 x 5
+model.add(Convolution2D(24, 5, 5, activation='relu'))
+# Pooling layer
+model.add(MaxPooling2D(pool_size=(2, 2)))
+# Layer 2: 36 x 5 x 5
+model.add(Convolution2D(36, 5, 5, activation='relu'))
+# Pooling layer
+model.add(MaxPooling2D(pool_size=(2, 2)))
+# Layer 3: 48 x 5 x 5
+model.add(Convolution2D(48, 5, 5, activation='relu'))
+# Pooling layer
+model.add(MaxPooling2D(pool_size=(2, 2)))
+# Flatten
 model.add(Flatten())
 ## Dense 100
 model.add(Dense(100))
@@ -100,12 +107,12 @@ model.add(Dense(100))
 model.add(Dense(50))
 ## Dense 10
 model.add(Dense(10))
-## Dense 1
+# Final output layer
 model.add(Dense(1))
 
 ## Compile and Fit
 model.compile(loss='mse', optimizer = 'adam')
-model.fit(X_train, y_train, validation_split=0.2, shuffle = True, nb_epoch = 5)
+model.fit(X_train, y_train, validation_split=0.2, shuffle = True, nb_epoch = 4)
 
 ## Save the model
 model.save('model.h5')

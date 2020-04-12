@@ -129,10 +129,15 @@ The following diagram shows the network layers.
 
 #### 3. Creation of the Training Set & Training Process
 
-* As mentioned earlier almost 40k images and streering data is collected by doing the foloowing:
+* As mentioned earlier almost 40k images and streering data is collected by doing the following:
 * Recorded set 1 : One lap clockwise driving.
 * Recorded set 2 : One lap anti-clockwise driving.
 * Flipped images of set 1 and set 2
 * The data set is randomly shuffled and put 20% of the data into a validation set. 
 * The graph shown below descibes traning loss vs validation loss achieved.
 ![alt text][image9]
+
+# **Output**
+<video width="320" height="240" controls>
+  <source src="video_output/run1.mp4" type="video/mp4">
+</video>

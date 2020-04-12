@@ -138,6 +138,5 @@ The following diagram shows the network layers.
 ![alt text][image9]
 
 # **Output**
-<video width="320" height="240" controls>
-  <source src="video_output/run1.mp4" type="video/mp4">
-</video>
+Here is the final result.!
+![](video_output/behavioral_cloning.gif)

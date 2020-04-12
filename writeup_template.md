@@ -1,20 +1,3 @@
-# **Behavioral Cloning** 
-
-## Writeup Template
-
-### You can use this file as a template for your writeup if you want to submit it as a markdown file, but feel free to use some other method and submit a pdf if you prefer.
-
----
-
-**Behavioral Cloning Project**
-
-The goals / steps of this project are the following:
-* Use the simulator to collect data of good driving behavior
-* Build, a convolution neural network in Keras that predicts steering angles from images
-* Train and validate the model with a training and validation set
-* Test that the model successfully drives around track one without leaving the road
-* Summarize the results with a written report
-
 
 [//]: # (Image References)
 
@@ -26,8 +9,67 @@ The goals / steps of this project are the following:
 [image6]: ./examples/placeholder_small.png "Normal Image"
 [image7]: ./examples/placeholder_small.png "Flipped Image"
 
-## Rubric Points
-### Here I will consider the [rubric points](https://review.udacity.com/#!/rubrics/432/view) individually and describe how I addressed each point in my implementation.  
+# **Behavioral Cloning** 
+
+[![Udacity - Self-Driving Car NanoDegree](https://s3.amazonaws.com/udacity-sdc/github/shield-carnd.svg)](http://www.udacity.com/drive)
+
+Overview
+---
+This repository contains files for the Behavioral Cloning Project.
+
+In this project, deep neural networks and convolutional neural networks are implemented to clone driving behavior. The network model is  trained, validated and tested using Keras. The model outputs a steering angle to an autonomous vehicle.
+
+A simulator [self-driving-car-sim](https://github.com/udacity/self-driving-car-sim.git) is provided where a car can be steered around a track for data collection. The collected image data and steering angles are used to train a neural network and then use this model to drive the car autonomously around the track. Download the simulator using the link: [Windows](https://s3-us-west-1.amazonaws.com/udacity-selfdrivingcar/Term1-Sim/term1-simulator-windows.zip) [Linux](https://s3-us-west-1.amazonaws.com/udacity-selfdrivingcar/Term1-Sim/term1-simulator-linux.zip) [Mac](https://s3-us-west-1.amazonaws.com/udacity-selfdrivingcar/Term1-Sim/term1-simulator-mac.zip)
+
+The basic modules are as the following: 
+* model.py (script used to create and train the model)
+* drive.py (script to drive the car)
+* model.h5 (a trained Keras model)
+* video.py (to create a video)
+* video_output/video.mp4 (a video recording of the vehicle driving autonomously around the track for at least one full lap)
+
+### `model.py`
+* Implement a neural network model in this file and run the following command. The model will be saved in `model.h5`
+```sh
+python model.py
+```
+### `drive.py`
+
+* Run the saved model `model.h5`using the following ccommand.
+```sh
+python drive.py model.h5
+```
+* The above command will load the trained model and use the model to make predictions on individual images in real-time and send the predicted angle back to the server via a websocket connection.
+
+* Saving a video of the autonomous agent using the following command.
+```sh
+python drive.py model.h5 run1
+```
+* The fourth argument, `run1`, is the directory in which to save the images seen by the agent. If the directory already exists, it'll be overwritten.
+
+### `video.py`
+
+* Creates a video based on images found in the `run1` directory using the following command.
+```sh
+python video.py run1
+```
+* Optionally, one can specify the FPS (frames per second) of the video:
+
+```sh
+python video.py run1 --fps 48
+```
+---
+
+**Behavioral Cloning Project**
+
+The goals / steps of this project are the following:
+* Use the [self-driving-car-simulator](https://github.com/udacity/self-driving-car-sim.git) to collect data of good driving behavior
+* Build, a convolution neural network in Keras that predicts steering angles from images
+* Train and validate the model with a training and validation set
+* Test that the model successfully drives around track one without leaving the road
+* Summarize the results with a written report
+
+
 
 ---
 ### Files Submitted & Code Quality

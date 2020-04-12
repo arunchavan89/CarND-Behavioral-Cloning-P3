@@ -8,6 +8,7 @@
 [image5]: ./examples/placeholder_small.png "Recovery Image"
 [image6]: ./examples/placeholder_small.png "Normal Image"
 [image7]: ./examples/placeholder_small.png "Flipped Image"
+[image8]: ./examples/model_cnn.png "model Image"
 
 # **Behavioral Cloning** 
 
@@ -60,61 +61,57 @@ python video.py run1 --fps 48
 ```
 ---
 
-**Behavioral Cloning Project**
+# **Behavioral Cloning Project**
 
-The goals / steps of this project are the following:
+The goals of this project are the following:
 * Use the [self-driving-car-simulator](https://github.com/udacity/self-driving-car-sim.git) to collect data of good driving behavior
 * Build, a convolution neural network in Keras that predicts steering angles from images
 * Train and validate the model with a training and validation set
 * Test that the model successfully drives around track one without leaving the road
 * Summarize the results with a written report
-
-
-
 ---
 ### Files Submitted & Code Quality
 
 #### 1. Submission includes all required files and can be used to run the simulator in autonomous mode
 
-My project includes the following files:
+The project includes the following files:
 * model.py containing the script to create and train the model
 * drive.py for driving the car in autonomous mode
 * model.h5 containing a trained convolution neural network 
-* writeup_report.md or writeup_report.pdf summarizing the results
+* writeup_report.md file summarizing the results
+* video_output/run1.mp4 the output-video 
 
 #### 2. Submission includes functional code
-Using the Udacity provided simulator and my drive.py file, the car can be driven autonomously around the track by executing 
+* Using the Udacity provided simulator and the drive.py file, the car can be driven autonomously around the track by executing 
 ```sh
 python drive.py model.h5
 ```
-
 #### 3. Submission code is usable and readable
 
-The model.py file contains the code for training and saving the convolution neural network. The file shows the pipeline I used for training and validating the model, and it contains comments to explain how the code works.
+* The model.py file contains the code for training and saving the convolution neural network. The file shows the pipeline used for training and validating the model, and it contains comments to explain how the code works.
 
 ### Model Architecture and Training Strategy
 
 #### 1. An appropriate model architecture has been employed
-
-My model consists of a convolution neural network with 3x3 filter sizes and depths between 32 and 128 (model.py lines 18-24) 
-
-The model includes RELU layers to introduce nonlinearity (code line 20), and the data is normalized in the model using a Keras lambda layer (code line 18). 
+* The model designed by NVIDIA corporation in the paper [End to End Learning for Self-Driving Cars](https://www.researchgate.net/publication/301648615_End_to_End_Learning_for_Self-Driving_Cars) is implemetned in this project. The following diagram shows the network layers.
+![alt text][image8]
 
 #### 2. Attempts to reduce overfitting in the model
 
-The model contains dropout layers in order to reduce overfitting (model.py lines 21). 
+* The model contains MaxPooling2D layers in order to reduce overfitting (model.py lines 81-96). 
 
-The model was trained and validated on different data sets to ensure that the model was not overfitting (code line 10-16). The model was tested by running it through the simulator and ensuring that the vehicle could stay on the track.
+* The model was trained and validated on different data sets to ensure that the model was not overfitting. The model was tested by running it through the simulator and ensuring that the vehicle could stay on the track.
 
 #### 3. Model parameter tuning
 
-The model used an adam optimizer, so the learning rate was not tuned manually (model.py line 25).
+* The model used an adam optimizer, so the learning rate was not tuned manually (model.py line 99).
 
 #### 4. Appropriate training data
 
-Training data was chosen to keep the vehicle driving on the road. I used a combination of center lane driving, recovering from the left and right sides of the road ... 
-
-For details about how I created the training data, see the next section. 
+* Training data was chosen to keep the vehicle driving on the road.
+* Recorded set 1 : One lap clockwise driving.
+* Recorded set 2 : One lap anti-clockwise driving.
+* Flipped images of set 1 and set 2
 
 ### Model Architecture and Training Strategy
 

@@ -15,6 +15,8 @@
 
 [![Udacity - Self-Driving Car NanoDegree](https://s3.amazonaws.com/udacity-sdc/github/shield-carnd.svg)](http://www.udacity.com/drive)
 
+![](video_output/behavioral_cloning.gif)
+
 Overview
 ---
 This repository contains files for the Behavioral Cloning Project.
@@ -136,7 +138,3 @@ The following diagram shows the network layers.
 * The data set is randomly shuffled and put 20% of the data into a validation set. 
 * The graph shown below descibes traning loss vs validation loss achieved.
 ![alt text][image9]
-
-# **Output**
-Here is the final result.!
-![](video_output/behavioral_cloning.gif)
